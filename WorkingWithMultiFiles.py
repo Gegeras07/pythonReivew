@@ -45,7 +45,11 @@ while True:
             os.system('clear')
             print(sys.exc_info())
 
-    if opt == 3:
+    elif opt == 2:
+        os.system('clear')
+        print('Create a .csv file.')
+
+    elif opt == 3:
         try:
             os.system('clear')
             #Cria uma lista com os arquivos que existem no diretório
@@ -75,6 +79,10 @@ while True:
         except:
             os.system('clear')
             print(sys.exc_info())
+
+    elif opt == 4:
+        os.system('clear')
+        print('View the .csv files.')
 
     elif opt == 5:
         os.system('clear')
