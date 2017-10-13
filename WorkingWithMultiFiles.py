@@ -2,15 +2,19 @@
 import os
 #Para utilizar recursos do tratamento de exceção
 import sys
-#Para utilizar recursos da listagem de arquivos do diretório
-from os import listdir
-from os.path import isfile, join
+#Para utilizar recursos de listagem de diretório
+import glob
+#Para utilizar arquivos csv
+import csv
 
 os.system('clear')
 
-directory = 'pythonCourseMVA/filesTxt/'
+directory = '/home/gegeras/Documentos/Python/pythonCourseMVA'
 
-while True:
+READ = 'r'
+WRITE = 'w'
+
+while True:   
 
     print('==============================')
     print('=========== Files ============')
@@ -22,10 +26,12 @@ while True:
         opt = -1        
 
     if opt == 1:
-        os.system('clear')        
+        os.system('clear')
+        directoryLocal = directory + '/filesTxt/'
+        #Define o diretório a ser utilizado
+        os.chdir(directoryLocal)        
         fileName = input('Choose a file name: ')
-        path = directory + fileName + '.txt'
-        WRITE = 'w'
+        path = directoryLocal + fileName + '.txt'        
         
         try: 
             myFile = open(path, mode = WRITE)
@@ -47,42 +53,97 @@ while True:
 
     elif opt == 2:
         os.system('clear')
-        print('Create a .csv file.')
+        directoryLocal = directory + '/filesCsv/'
+        #Define o diretório a ser utilizado
+        os.chdir(directoryLocal)        
+        fileName = input('Choose a file name: ')
+        path = directoryLocal + fileName + '.csv'        
+        
+        try: 
+            myFile = open(path, mode = WRITE)
 
-    elif opt == 3:
-        try:
-            os.system('clear')
-            #Cria uma lista com os arquivos que existem no diretório
-            onlyFiles = [f for f in listdir(directory) if isfile(join(directory, f))]
+            contentFile = input('Write your text or \'DONE\' to exit: ')
 
-            if len(onlyFiles) != 0:
-                #Exibe os arquivos que existem no diretório
-                for f in onlyFiles:
-                    print(f)
+            while contentFile.upper() != 'DONE':
+                myFile.write(contentFile + '\n')
+                contentFile = input('Write your text or \'DONE\' to exit: ')
 
-                fileToView = input('Choose the name\'s file: ')
-
-                try:
-                    os.system('clear')
-                    path = directory + fileToView + '.txt'
-                    file = open(path)
-                    fileContent = file.read()
-                    print(fileContent)
-                    file.close()
-                except FileNotFoundError:
-                    print('File not found.')
-                except:
-                    print(sys.exc_info())
-            else:
-                os.system('clear')
-                print('The directory is empty!')                
+            myFile.close()
+        #Tratamento de exceção específico
+        except IOError as e:
+            print('I/O error ({0}): {1}'.format(e.errno, e.strerror))
+        #Tratamento de erro para comportamentos inesperados
         except:
             os.system('clear')
             print(sys.exc_info())
 
+    elif opt == 3:
+        os.system('clear')
+        directoryLocal = directory + '/filesTxt/'
+        os.chdir(directoryLocal)
+        cont = 0
+
+        #Lista os arquivos de acordo com o diretório e a extensão selecionadas
+        for file in glob.glob("*.txt"):
+            print(file)
+            cont += 1
+
+        if cont != 0:            
+            
+            fileToView = input('Choose the name\'s file: ')
+
+            try:
+                os.system('clear')
+                path = directoryLocal + fileToView + '.txt'
+                myFile = open(path, mode = READ)
+                fileContent = myFile.read()
+                print(fileContent)
+                myFile.close()
+            except IOError as e:
+                print('I/O error ({0}): {1}'.format(e.errno, e.strerror))
+            except:
+                os.system('clear')
+                print(sys.exc_info())            
+                
+        else:
+            print('There are no files to view!')       
+
     elif opt == 4:
         os.system('clear')
-        print('View the .csv files.')
+        directoryLocal = directory + '/filesCsv/'
+        os.chdir(directoryLocal)
+        cont = 0
+
+        #Lista os arquivos de acordo com o diretório e a extensão selecionadas
+        for file in glob.glob("*.csv"):
+            print(file)
+            cont += 1
+
+        if cont != 0:            
+            
+            fileToView = input('Choose the name\'s file: ')            
+
+            try:
+                os.system('clear')
+                delimiterCh = input('Choose the delimiter character: ')
+                path = directoryLocal + fileToView + '.csv'
+                
+                with open(path, READ) as myCsvFile:
+                    #Read the file contents | Specifies the delimiter
+                    dataFromFile = csv.reader(myCsvFile, delimiter=delimiterCh)
+
+                    #For loop that will run once per row
+                    for row in dataFromFile:
+                        print(row)
+               
+            except IOError as e:
+                print('I/O error ({0}): {1}'.format(e.errno, e.strerror))
+            except:
+                os.system('clear')
+                print(sys.exc_info())            
+                
+        else:
+            print('There are no files to view!')
 
     elif opt == 5:
         os.system('clear')
