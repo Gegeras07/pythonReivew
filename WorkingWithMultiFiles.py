@@ -99,8 +99,8 @@ while True:
                 fileContent = myFile.read()
                 print(fileContent)
                 myFile.close()
-            except IOError as e:
-                print('I/O error ({0}): {1}'.format(e.errno, e.strerror))
+            except FileNotFoundError:
+                print('File not Found')
             except:
                 os.system('clear')
                 print(sys.exc_info())            
@@ -121,12 +121,12 @@ while True:
 
         if cont != 0:            
             
-            fileToView = input('Choose the name\'s file: ')            
+            fileToView = input('Choose the name\'s file: ')
+            delimiterCh = input('Choose the delimiter character: ')            
 
-            try:
-                os.system('clear')
-                delimiterCh = input('Choose the delimiter character: ')
-                path = directoryLocal + fileToView + '.csv'
+            try:                
+                os.system('clear')                
+                path = directoryLocal + fileToView + '.csv'                
                 
                 with open(path, READ) as myCsvFile:
                     #Read the file contents | Specifies the delimiter
@@ -136,8 +136,8 @@ while True:
                     for row in dataFromFile:
                         print(row)
                
-            except IOError as e:
-                print('I/O error ({0}): {1}'.format(e.errno, e.strerror))
+            except FileNotFoundError:
+                print('File not Found')
             except:
                 os.system('clear')
                 print(sys.exc_info())            
