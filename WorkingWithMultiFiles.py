@@ -14,6 +14,35 @@ directory = '/home/gegeras/Documentos/Python/pythonCourseMVA'
 READ = 'r'
 WRITE = 'w'
 
+def makeFile(ext,fileName):
+    os.system('clear')
+    directoryLocal = directory + '/files' + ext.capitalize() + '/'
+    #Define o diretório a ser utilizado
+    os.chdir(directoryLocal)   
+    path = directoryLocal + fileName + '.' + ext        
+    
+    try: 
+        myFile = open(path, mode = WRITE)
+
+        contentFile = input('Write your text or \'DONE\' to exit: ')
+
+        while contentFile.upper() != 'DONE':
+            myFile.write(contentFile + '\n')
+            contentFile = input('Write your text or \'DONE\' to exit: ')
+
+        myFile.close()
+    #Tratamento de exceção específico
+    except IOError as e:
+        print('I/O error ({0}): {1}'.format(e.errno, e.strerror))
+    #Tratamento de erro para comportamentos inesperados
+    except:
+        os.system('clear')
+        print(sys.exc_info())
+    return
+
+def readFile(ext, name):
+    return
+
 while True:   
 
     print('==============================')
@@ -27,55 +56,13 @@ while True:
 
     if opt == 1:
         os.system('clear')
-        directoryLocal = directory + '/filesTxt/'
-        #Define o diretório a ser utilizado
-        os.chdir(directoryLocal)        
-        fileName = input('Choose a file name: ')
-        path = directoryLocal + fileName + '.txt'        
-        
-        try: 
-            myFile = open(path, mode = WRITE)
-
-            contentFile = input('Write your text or \'DONE\' to exit: ')
-
-            while contentFile.upper() != 'DONE':
-                myFile.write(contentFile + '\n')
-                contentFile = input('Write your text or \'DONE\' to exit: ')
-
-            myFile.close()
-        #Tratamento de exceção específico
-        except IOError as e:
-            print('I/O error ({0}): {1}'.format(e.errno, e.strerror))
-        #Tratamento de erro para comportamentos inesperados
-        except:
-            os.system('clear')
-            print(sys.exc_info())
+        name = input('Choose de name\'s file: ')
+        makeFile('txt',name)
 
     elif opt == 2:
         os.system('clear')
-        directoryLocal = directory + '/filesCsv/'
-        #Define o diretório a ser utilizado
-        os.chdir(directoryLocal)        
-        fileName = input('Choose a file name: ')
-        path = directoryLocal + fileName + '.csv'        
-        
-        try: 
-            myFile = open(path, mode = WRITE)
-
-            contentFile = input('Write your text or \'DONE\' to exit: ')
-
-            while contentFile.upper() != 'DONE':
-                myFile.write(contentFile + '\n')
-                contentFile = input('Write your text or \'DONE\' to exit: ')
-
-            myFile.close()
-        #Tratamento de exceção específico
-        except IOError as e:
-            print('I/O error ({0}): {1}'.format(e.errno, e.strerror))
-        #Tratamento de erro para comportamentos inesperados
-        except:
-            os.system('clear')
-            print(sys.exc_info())
+        name = input('Choose de name\'s file: ')
+        makeFile('csv',name)
 
     elif opt == 3:
         os.system('clear')
