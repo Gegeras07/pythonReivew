@@ -88,16 +88,9 @@ def readFile(ext):
 
     return
 
-while True:   
-
-    print('==============================')
-    print('=========== Files ============')
-    print('==============================\n\n')
-
-    try:
-        opt = int(input('1. Create a file .txt\n2. Create a file .csv\n3. Read a file .txt\n4. Read a file .csv\n5. Exit\nChoose a option: '))
-    except:
-        opt = -1        
+def menu(opt):
+    
+    continueRun = True
 
     if opt == 1:        
         makeFile('txt')
@@ -114,9 +107,31 @@ while True:
     elif opt == 5:
         os.system('clear')
         print('End program!')
-        break
+        continueRun = False
     else:
         os.system('clear')
         print('--- Wrong option ---')
-        if opt == -1:
-            print('--- Enter numbers! ---')
+
+    return continueRun
+
+def main():
+    while True:   
+
+        print('==============================')
+        print('=========== Files ============')
+        print('==============================\n\n')
+
+        try:
+            opt = int(input('1. Create a file .txt\n2. Create a file .csv\n3. Read a file .txt\n4. Read a file .csv\n5. Exit\nChoose a option: '))
+
+            run = menu(opt)
+
+            if run != True:
+                break
+        except:
+            os.system('clear')
+            print('SOMENTE LETRAS!') 
+
+    return
+
+main()
