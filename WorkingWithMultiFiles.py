@@ -40,7 +40,49 @@ def makeFile(ext,fileName):
         print(sys.exc_info())
     return
 
-def readFile(ext, name):
+def readFile(ext):
+    os.system('clear')
+    directoryLocal = directory + '/files' + ext.capitalize() + '/'
+    #Define o diretório a ser utilizado
+    os.chdir(directoryLocal)
+    cont = 0
+
+    #Lista os arquivos de acordo com o diretório e a extensão selecionadas
+    for file in glob.glob("*." + ext):
+        print(file)
+        cont += 1
+
+    if cont != 0:            
+            
+        fileToView = input('Choose the name\'s file: ')
+
+        try:
+            os.system('clear')
+            path = directoryLocal + fileToView + '.' + ext
+
+            if ext == 'txt':
+                myFile = open(path, mode = READ)
+                fileContent = myFile.read()
+                print(fileContent)
+                myFile.close()
+            else:                
+                with open(path, READ) as myCsvFile:
+                    #Read the file contents | Specifies the delimiter
+                    dataFromFile = csv.reader(myCsvFile)
+
+                    #For loop that will run once per row
+                    for row in dataFromFile:
+                        print(row)
+            
+        except FileNotFoundError:
+            print('File not Found')
+        except:
+            os.system('clear')
+            print(sys.exc_info())            
+            
+    else:
+        print('There are no files to view!')
+
     return
 
 while True:   
@@ -65,72 +107,10 @@ while True:
         makeFile('csv',name)
 
     elif opt == 3:
-        os.system('clear')
-        directoryLocal = directory + '/filesTxt/'
-        os.chdir(directoryLocal)
-        cont = 0
-
-        #Lista os arquivos de acordo com o diretório e a extensão selecionadas
-        for file in glob.glob("*.txt"):
-            print(file)
-            cont += 1
-
-        if cont != 0:            
-            
-            fileToView = input('Choose the name\'s file: ')
-
-            try:
-                os.system('clear')
-                path = directoryLocal + fileToView + '.txt'
-                myFile = open(path, mode = READ)
-                fileContent = myFile.read()
-                print(fileContent)
-                myFile.close()
-            except FileNotFoundError:
-                print('File not Found')
-            except:
-                os.system('clear')
-                print(sys.exc_info())            
-                
-        else:
-            print('There are no files to view!')       
+        readFile('txt')               
 
     elif opt == 4:
-        os.system('clear')
-        directoryLocal = directory + '/filesCsv/'
-        os.chdir(directoryLocal)
-        cont = 0
-
-        #Lista os arquivos de acordo com o diretório e a extensão selecionadas
-        for file in glob.glob("*.csv"):
-            print(file)
-            cont += 1
-
-        if cont != 0:            
-            
-            fileToView = input('Choose the name\'s file: ')
-            delimiterCh = input('Choose the delimiter character: ')            
-
-            try:                
-                os.system('clear')                
-                path = directoryLocal + fileToView + '.csv'                
-                
-                with open(path, READ) as myCsvFile:
-                    #Read the file contents | Specifies the delimiter
-                    dataFromFile = csv.reader(myCsvFile, delimiter=delimiterCh)
-
-                    #For loop that will run once per row
-                    for row in dataFromFile:
-                        print(row)
-               
-            except FileNotFoundError:
-                print('File not Found')
-            except:
-                os.system('clear')
-                print(sys.exc_info())            
-                
-        else:
-            print('There are no files to view!')
+        readFile('csv')
 
     elif opt == 5:
         os.system('clear')
