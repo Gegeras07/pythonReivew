@@ -14,7 +14,10 @@ directory = '/home/gegeras/Documentos/Python/pythonCourseMVA'
 READ = 'r'
 WRITE = 'w'
 
-def makeFile(ext,fileName):
+def makeFile(ext):
+    os.system('clear')
+    fileName = input('Choose de name\'s file: ')
+
     os.system('clear')
     directoryLocal = directory + '/files' + ext.capitalize() + '/'
     #Define o diretório a ser utilizado
@@ -96,15 +99,11 @@ while True:
     except:
         opt = -1        
 
-    if opt == 1:
-        os.system('clear')
-        name = input('Choose de name\'s file: ')
-        makeFile('txt',name)
+    if opt == 1:        
+        makeFile('txt')
 
-    elif opt == 2:
-        os.system('clear')
-        name = input('Choose de name\'s file: ')
-        makeFile('csv',name)
+    elif opt == 2:        
+        makeFile('csv')
 
     elif opt == 3:
         readFile('txt')               
